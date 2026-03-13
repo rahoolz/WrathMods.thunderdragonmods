@@ -1,0 +1,139 @@
+[
+  {
+    "Key": "Example.Name",
+    "ProcessTemplates": false,
+    "enGB": "Name of your Feat/Class/Whatever"
+  },
+
+  {
+    "Key": "Example.Description",
+    "enGB": "Description for your Feat/Class/Whatever"
+  },
+
+  {
+     "Key": "MartialAptitude.Name",
+     "ProcessTemplates": false,
+     "enGB": "Martial Aptitude"
+  },
+
+  {
+     "Key": "MartialAptitude.Description",
+     "enGB": "You get a +2 bonus on all Athletics and Mobility skill checks, as well as +1 bonus on melee attack roll. If you have 10 or more ranks in one of these skills, the bonus increases to +4 for that skill."
+  },
+
+  {
+     "Key": "DervishDanceAtkOnly.Name",
+     "ProcessTemplates": false,
+     "enGB": "Dervish Dance"
+  },
+
+  {
+     "Key": "DervishDanceAtkOnly.Description",
+     "enGB": "When wielding a scimitar with one hand, you can use your Dexterity modifier instead of your Strength modifier on melee attack and damage rolls. You treat the scimitar as a one-handed piercing weapon for all feats and class abilities that require such a weapon (such as a duelistÅfs precise strike ability).The scimitar must be for a creature of your size. You cannot use this feat if you are carrying a weapon or shield in your off hand./n/n Pick this ability if your scimitar is not allowed to benefit from STR or DEX for damage."
+  },
+
+  {
+     "Key": "SacredFistTT.Name",
+     "ProcessTemplates": false,
+     "enGB": "Sacred Fist (TT)"
+  },
+
+  {
+     "Key": "SacredFistTT.Description",
+     "enGB": "Unlike many warpriests, sacred fists leave behind armor and shield and instead rely on their fists and whatever protection their deity bestows on them."
+  },
+
+  {
+     "Key": "SacredFistProficiencies.Name",
+     "ProcessTemplates": false,
+     "enGB": "Sacred Fist Proficiency"
+  },
+
+  {
+     "Key": "SacredFistProficiencies.Description",
+     "enGB": "Sacred fists are proficient with the club, crossbow (light or heavy), dagger, handaxe, javelin, kama, nunchaku, quarterstaff, sai, shortspear, short sword, dart, sling staff, and spear. Sacred fists are not proficient with any armor or shields. When wearing armor, using a shield, or carrying a medium or heavy load a sacred fist loses his AC bonus and flurry of blows."
+  },
+
+  {
+     "Key": "SacredFistAcBonus.Name",
+     "ProcessTemplates": false,
+     "enGB": "AC Bonus (Su)"
+  },
+
+  {
+     "Key": "SacredFistAcBonus.Description",
+     "enGB": " A deity protects her sacred fist as long as he is unarmored and unencumbered. A sacred fist adds his Wisdom modifier (minimum 0) to his AC and his CMD. In addition, a sacred fist gains a +1 dodge bonus to AC and CMD at 4th level. This bonus increases by 1 for every 4 levels thereafter (to a maximum of +5 at 20th level).\n\ These bonuses to AC apply even against touch attacks or when the sacred fist is flat-footed. He loses these bonuses when he is immobilized or helpless, when he wears any armor, when he carries a shield, or when he carries a medium or heavy load. This counts as the monk ability of the same name, and the sacred fistÅfs warpriest levels stack with monk level for determining the benefits."
+  },
+
+  {
+     "Key": "SacredFistAcTag.Name",
+     "ProcessTemplates": false,
+     "enGB": "AC Bonus (Wisdom)"
+  },
+
+  {
+     "Key": "SacredFistFlurryOfBlows.Name",
+     "ProcessTemplates": false,
+     "enGB": "Flurry of Blows (Ex)"
+  },
+
+  {
+     "Key": "SacredFistFlurryOfBlows.Description",
+     "enGB": "At 1st level, a sacred fist can make a flurry of blows attack as a full-attack action. This ability works like the monk ability of the same name, except the sacred fist's attack bonus from warpriest levels does not count as his warpriest level.\n This ability replaces sacred weapon."
+  },
+
+  {
+     "Key": "SacredFistUnarmedStrike.Name",
+     "ProcessTemplates": false,
+     "enGB": "Unarmed Strike"
+  },
+
+  {
+     "Key": "SacredFistUnarmedStrike.Description",
+     "enGB": "At 1st level, a sacred fist gains Improved Unarmed Strike as a bonus feat. He uses his warpriest levels as monk levels for determining the amount of damage dealt with an unarmed strike. This ability replaces focus weapon."
+  },
+
+  {
+     "Key": "SacredFistBlessedFortitude.Name",
+     "ProcessTemplates": false,
+     "enGB": "Blessed Fortitude (Su)"
+  },
+
+  {
+     "Key": "SacredFistBlessedFortitude.Description",
+     "enGB": "At 3rd level, a sacred fist can avoid even magical and unusual attacks with help from his deity. If he succeeds at a Fortitude saving throw against an attack that has a reduced effect on a successful save, he instead avoids the effect entirely. A helpless sacred fist does not gain the benefit of the blessed fortitude ability.\n This ability replaces the bonus feat gained at 3rd level."
+  },
+
+  {
+     "Key": "SacredFistStyleFeat.Name",
+     "ProcessTemplates": false,
+     "enGB": "Bonus Style Feat"
+  },
+
+  {
+     "Key": "SacredFistStyleFeat.Description",
+     "enGB": "At 6th level, the sacred fist gains a style feat as a bonus feat. The sacred fist must meet the style featÅfs prerequisites.He uses his warpriest levels as monk levels for the purposes of meeting the featÅfs prerequisites. At 12th and 18th levels,a sacred fist gains either another style feat or a feat that requires a style feat as a prerequisite.\n\n This ability replaces the bonus feats gained at 6th, 12th, and 18th levels."
+  },
+
+  {
+     "Key": "SacredFistKiPool.Name",
+     "ProcessTemplates": false,
+     "enGB": "Ki Pool (Su)"
+  },
+
+  {
+     "Key": "SacredFistKiPool.Description",
+     "enGB": "At 7th level, the sacred fist gains a ki pool. This functions as the monk class feature, using the sacred fistÅfs level - 3 as his monk level when determining the number of points in his pool and bonuses granted to his unarmed strike. Additionally, the sacred fist can as a swift action spend 1 point from his ki pool to grant himself a +1 insight bonus to his AC for 1 minute. (This is in addition the normal ki ability to gain a dodge bonus to AC.) This insight bonus increases by 1 for every 3 levels above 7th (to a maximum of +5 at 19th level).\n\n This ability replaces sacred armor."
+  },
+
+  {
+     "Key": "SacredFistMiraculousFortitude.Name",
+     "ProcessTemplates": false,
+     "enGB": "Miraculous Fortitude (Su)"
+  },
+
+  {
+     "Key": "SacredFistMiraculousFortitudeM.Description",
+     "enGB": "At 9th level, the sacred fistÅfs blessed fortitude ability improves. He still takes no damage or negative effect when he succeeds at a Fortitude save, but now when he fails a Fortitude saving throw against a spell or effect that deals damage (including ability damage and drain), he takes only half the amount of damage. A helpless sacred fist does not gain the benefit of miraculous fortitude.\n\n This ability replaces the bonus feat gained at 9th level."
+  }
+]
