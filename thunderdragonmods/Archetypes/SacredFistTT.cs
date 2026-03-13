@@ -28,11 +28,13 @@ namespace thunderdragonmods.Archetypes
         private static readonly string Proficiencies = "SacredFist.Proficiencies";
         private static readonly string ProficiencyGuid = "FA6019F9-34CF-46DD-BFB0-1EE4EE539B3D";
 
+        private static readonly string SacredFistLvlAcBonusName = "SacredFistLvlAcBonus";
+        private static readonly string SacredFistLvlAcBonusGuid = "FAC3E288-735B-4483-8DF3-2656464B8D0A";
         private static readonly string SacredFistAcBonusBuffName = "SacredFistAcBonusBuff";
         private static readonly string SacredFistAcBonusBuffGuid = "81F96746-029C-420E-9500-3D16DCC9FBC8";
         private static readonly string AcBonusName = "SacredFistAcBonus";
         private static readonly string AcBonusGuid = "59DE3E62-1EE4-472D-9430-637DC5AF0F83";
-       
+ 
 
         private static readonly BlueprintFeature WarpriestProficiency = BlueprintTool.Get<BlueprintFeature>("ad29d445f1534474db8295a61e42d08b");
         private static readonly BlueprintFeature MonkProficiency = BlueprintTool.Get<BlueprintFeature>("c7d6f5244c617734a8a76b6785a752b4");
@@ -40,6 +42,7 @@ namespace thunderdragonmods.Archetypes
         private static readonly BlueprintFeature FocusedWeapon = BlueprintTool.Get<BlueprintFeature>("ac384183dbfbbd7499410a21d749bef1");
         private static readonly BlueprintFeature WarpriestFeat = BlueprintTool.Get<BlueprintFeature>("303fd456ddb14437946e344bad9a893b");
         private static readonly BlueprintFeature WarpriestSacredArmor = BlueprintTool.Get<BlueprintFeature>("35e2d9525c240ce4c8ae47dd387b6e53");
+        private static readonly BlueprintFeature MonkClass = BlueprintTool.Get<BlueprintFeature>("e8f21e5b58e0569468e420ebea456124");
 
         public static void Configure()
         {
@@ -68,10 +71,30 @@ namespace thunderdragonmods.Archetypes
                 )
                 .Configure();
 
-            var SacredFistAcBonusBuffComp = ContextRankConfigs.StatBonus(StatType.Wisdom, type: AbilityRankType.DamageDice);
+            var SacredFistWisAc = ContextRankConfigs.StatBonus(StatType.Wisdom, type: AbilityRankType.DamageDice);
+            var SacredFistLvlAc = ContextRankConfigs
+                .SumClassLevelWithArchetype(
+                archetypes:[ArchetypeRefs.InstinctualWarriorArchetype.ToString()],
+                classes: [CharacterClassRefs.MonkClass.ToString(),
+                    CharacterClassRefs.ShifterClass.ToString(),
+                    CharacterClassRefs.BarbarianClass.ToString()],
+                type: AbilityRankType.DamageBonus,
+                max:20)
+                .WithDivStepProgression(divisor: 4);
 
-            var SacredFistAcBonusBuff = BuffConfigurator.New(SacredFistAcBonusBuffName, SacredFistAcBonusBuffGuid)
-                .AddContextRankConfig(SacredFistAcBonusBuffComp)
+            var SacredFistLvlAcBonus = BuffConfigurator.New(SacredFistLvlAcBonusName, SacredFistLvlAcBonusGuid)
+                .AddContextRankConfig(SacredFistLvlAc)
+                .AddContextStatBonus(stat: StatType.AC, value: ContextValues.Rank(type: AbilityRankType.DamageBonus), descriptor: ModifierDescriptor.UntypedStackable)
+                .AddContextStatBonus(stat: StatType.AdditionalCMD, value: ContextValues.Rank(type: AbilityRankType.DamageBonus), descriptor: ModifierDescriptor.UntypedStackable)
+                .SetIsClassFeature(true)
+                .SetFlags(flags: [Kingmaker.UnitLogic.Buffs.Blueprints.BlueprintBuff.Flags.HiddenInUi, Kingmaker.UnitLogic.Buffs.Blueprints.BlueprintBuff.Flags.StayOnDeath])
+                .SetFrequency(DurationRate.Rounds)
+                .SetStacking(Kingmaker.UnitLogic.Buffs.Blueprints.StackingType.Replace)
+                .SetDisplayName("SacredFistLvlAcTag.Name")
+                .Configure();
+
+            var SacredFistWisAcBonus = BuffConfigurator.New(SacredFistAcBonusBuffName, SacredFistAcBonusBuffGuid)
+                .AddContextRankConfig(SacredFistWisAc)
                 .AddContextStatBonus(stat: StatType.AC, value: ContextValues.Rank(type: AbilityRankType.DamageDice), descriptor: ModifierDescriptor.UntypedStackable)
                 .AddRecalculateOnStatChange(stat: StatType.Wisdom)
                 .SetIsClassFeature(true)
@@ -84,7 +107,8 @@ namespace thunderdragonmods.Archetypes
             var SacredFistAcBonus = FeatureConfigurator.New(AcBonusName, AcBonusGuid)
                 .SetDisplayName("SacredFistAcBonus.Name")
                 .SetDescription("SacredFistAcBonus.Description")
-                .AddFacts(facts:[SacredFistAcBonusBuff])
+                .SetIsClassFeature(true)
+                .AddFacts(facts:[SacredFistWisAcBonus, SacredFistLvlAcBonus])
                 .Configure();
 
             var SacredFistArchetype = ArchetypeConfigurator.New(ArchetypeName, ArchetypeGuid, CharacterClassRefs.WarpriestClass)
