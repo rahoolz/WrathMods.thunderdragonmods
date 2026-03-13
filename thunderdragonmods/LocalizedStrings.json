@@ -29,7 +29,7 @@
 
   {
      "Key": "DervishDanceAtkOnly.Description",
-     "enGB": "When wielding a scimitar with one hand, you can use your Dexterity modifier instead of your Strength modifier on melee attack and damage rolls. You treat the scimitar as a one-handed piercing weapon for all feats and class abilities that require such a weapon (such as a duelistÅfs precise strike ability).The scimitar must be for a creature of your size. You cannot use this feat if you are carrying a weapon or shield in your off hand./n/n Pick this ability if your scimitar is not allowed to benefit from STR or DEX for damage."
+     "enGB": "When wielding a scimitar with one hand, you can use your Dexterity modifier instead of your Strength modifier on melee attack and damage rolls. You treat the scimitar as a one-handed piercing weapon for all feats and class abilities that require such a weapon (such as a duelistÅfs precise strike ability).The scimitar must be for a creature of your size. You cannot use this feat if you are carrying a weapon or shield in your off hand.\n \n Pick this ability if your scimitar is not allowed to benefit from STR or DEX for damage."
   },
 
   {
@@ -62,7 +62,7 @@
 
   {
      "Key": "SacredFistAcBonus.Description",
-     "enGB": " A deity protects her sacred fist as long as he is unarmored and unencumbered. A sacred fist adds his Wisdom modifier (minimum 0) to his AC and his CMD. In addition, a sacred fist gains a +1 dodge bonus to AC and CMD at 4th level. This bonus increases by 1 for every 4 levels thereafter (to a maximum of +5 at 20th level).\n\ These bonuses to AC apply even against touch attacks or when the sacred fist is flat-footed. He loses these bonuses when he is immobilized or helpless, when he wears any armor, when he carries a shield, or when he carries a medium or heavy load. This counts as the monk ability of the same name, and the sacred fistÅfs warpriest levels stack with monk level for determining the benefits."
+     "enGB": " A deity protects her sacred fist as long as he is unarmored and unencumbered. A sacred fist adds his Wisdom modifier (minimum 0) to his AC and his CMD. In addition, a sacred fist gains a +1 dodge bonus to AC and CMD at 4th level. This bonus increases by 1 for every 4 levels thereafter (to a maximum of +5 at 20th level).\n \n These bonuses to AC apply even against touch attacks or when the sacred fist is flat-footed. He loses these bonuses when he is immobilized or helpless, when he wears any armor, when he carries a shield, or when he carries a medium or heavy load. This counts as the monk ability of the same name, and the sacred fistÅfs warpriest levels stack with monk level for determining the benefits."
   },
 
   {
