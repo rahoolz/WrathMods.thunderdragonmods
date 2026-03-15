@@ -18,10 +18,11 @@ using Kingmaker.Enums;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Components;
+using Microsoft.Build.Utilities;
 
 namespace thunderdragonmods.Archetypes
 {
-    static class SacredFistTT
+    internal class SacredFistTT
     {
         private static readonly string ArchetypeName = "SacredFistTTArchetype";
         private static readonly string ArchetypeGuid = "D623E184-A315-4CF4-A434-94B192ACDA4F";
@@ -51,6 +52,9 @@ namespace thunderdragonmods.Archetypes
             var SacredFistArchetype = ArchetypeConfigurator.New(ArchetypeName, ArchetypeGuid, CharacterClassRefs.WarpriestClass)
                 .SetLocalizedName("SacredFistTT.Name")
                 .SetLocalizedDescription("SacredFistTT.Description");
+
+            LogWrapper logger = LogWrapper.Get("THTDMods");
+            logger.Info(BlueprintTool.Get<BlueprintArchetype>(ArchetypeName).ToString());
 
             var SacredFistProficiencies = FeatureConfigurator.New(Proficiencies, ProficiencyGuid)
                 .SetDisplayName(displayName: "SacredFistProficiencies.Name")
@@ -82,8 +86,8 @@ namespace thunderdragonmods.Archetypes
             var SacredFistWisAc = ContextRankConfigs.StatBonus(StatType.Wisdom, type: AbilityRankType.DamageDice);
             var SacredFistLvlAc = ContextRankConfigs
                 .SumClassLevelWithArchetype(
-                archetypes:[ArchetypeRefs.InstinctualWarriorArchetype.ToString(),
-                    SacredFistArchetype.ToString()],
+                archetypes:[ArchetypeRefs.InstinctualWarriorArchetype.ToString()
+                ],
                 classes: [CharacterClassRefs.MonkClass.ToString(),
                     CharacterClassRefs.ShifterClass.ToString(),
                     CharacterClassRefs.BarbarianClass.ToString(),
@@ -121,11 +125,12 @@ namespace thunderdragonmods.Archetypes
                 .AddFacts(facts:[SacredFistWisAcBonus, SacredFistLvlAcBonus])
                 .Configure();
 
-            var SacredFistAcUnlock = FeatureConfigurator.New(SacredFistAcBonusUnlockName, SacredFistAcBonusUnlockGuid)
+            /* var SacredFistAcUnlock = FeatureConfigurator.New(SacredFistAcBonusUnlockName, SacredFistAcBonusUnlockGuid)
                 .AddMonkNoArmorFeatureUnlock(SacredFistAcBonus)
                 .SetDisplayName("SacredFistAcBonus.Name")
                 .SetDescription("SacredFistAcBonus.Description")
                 .Configure();
+            */
 
             SacredFistArchetype
                 .AddToRemoveFeatures(1, WarpriestProficiency);
