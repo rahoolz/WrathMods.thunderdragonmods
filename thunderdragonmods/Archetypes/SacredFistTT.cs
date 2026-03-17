@@ -32,7 +32,7 @@ namespace thunderdragonmods.Archetypes
 
         private static readonly string SacredFistAcBonusUnlockName = "SacredFistAcBonusUnlock";
         private static readonly string SacredFistAcBonusUnlockGuid = "EE658E7B-564A-4E5E-B2C3-6954E568EB74";
-        private static readonly string SacredFistLvlAcBonusName = "SacredFistLvlAcBonus";
+        private static readonly string SacredFistLvlAcBonusName = "SacredFistLvlAcBonusBuff";
         private static readonly string SacredFistLvlAcBonusGuid = "FAC3E288-735B-4483-8DF3-2656464B8D0A";
         private static readonly string SacredFistAcBonusBuffName = "SacredFistAcBonusBuff";
         private static readonly string SacredFistAcBonusBuffGuid = "81F96746-029C-420E-9500-3D16DCC9FBC8";
@@ -48,15 +48,20 @@ namespace thunderdragonmods.Archetypes
         private static readonly string SacredFistFoB11UnlockName = "SacredFistFoB11Unlock";
         private static readonly string SacredFistFoB11UnlockGuid = "8909303D-9838-4C37-9CFE-776452659C73";
 
+        private static readonly string SacredFistUnarmedStrikeName = "SacredFistUnarmedStrikeFeature";
+        private static readonly string SacredFistUnarmedStrikeGuid = "EE82648D-EB2A-40C9-863F-FEF2ABD36C2E";
+
 
 
         private static readonly BlueprintFeature WarpriestProficiency = BlueprintTool.Get<BlueprintFeature>("ad29d445f1534474db8295a61e42d08b");
         private static readonly BlueprintFeature MonkProficiency = BlueprintTool.Get<BlueprintFeature>("c7d6f5244c617734a8a76b6785a752b4");
-        private static readonly BlueprintFeature WarpriestSacredWeapon = BlueprintTool.Get<BlueprintFeature>("f1a3791ffb950dc4bbee40966000a136");
+        private static readonly BlueprintFeature WarpriestSacredWeapon = BlueprintTool.Get<BlueprintFeature>("8eb5505ae69cc174fb1781134f949e5f");
         private static readonly BlueprintFeature FocusedWeapon = BlueprintTool.Get<BlueprintFeature>("ac384183dbfbbd7499410a21d749bef1");
         private static readonly BlueprintFeature WarpriestFeat = BlueprintTool.Get<BlueprintFeature>("303fd456ddb14437946e344bad9a893b");
         private static readonly BlueprintFeature WarpriestSacredArmor = BlueprintTool.Get<BlueprintFeature>("35e2d9525c240ce4c8ae47dd387b6e53");
-       
+        private static readonly BlueprintFeature ImprovedUnarmedStrike = BlueprintTool.Get<BlueprintFeature>("7812ad3672a4b9a4fb894ea402095167");
+        private static readonly BlueprintFeature MonkUnarmedDamage = BlueprintTool.Get<BlueprintFeature>("c3fbeb2ffebaaa64aa38ce7a0bb18fb0");
+
         public static void Configure()
         {
             var SacredFistArchetype = ArchetypeConfigurator.New(ArchetypeName, ArchetypeGuid, CharacterClassRefs.WarpriestClass)
@@ -179,14 +184,36 @@ namespace thunderdragonmods.Archetypes
                 .Configure();
             /* FLURRY OF BLOWS SECTION END */
 
+            /* UNARMED STRIKE BONUS FEAT DAMAGE */
+            var SacredFistUnarmedStrike = FeatureConfigurator.New(SacredFistUnarmedStrikeName, SacredFistUnarmedStrikeGuid)
+                .SetDisplayName("SacredFistUnarmedStrike.Name")
+                .SetDescription("SacredFistUnarmedStrike.Description")
+                .SetIsClassFeature(true)
+                .AddFacts([FeatureRefs.ImprovedUnarmedStrike.ToString(), FeatureRefs.MonkUnarmedStrike.ToString()])
+                .Configure();
+
             ArchetypeConfigurator.For(SacredFistArchetype)
-                .AddToRemoveFeatures(1, WarpriestProficiency)
-                .AddToRemoveFeatures(1, WarpriestSacredWeapon)
-                /*------------------------------------------*/
                 .AddToAddFeatures(1, SacredFistProficiencies)
                 .AddToAddFeatures(1, SacredFistAcUnlock)
                 .AddToAddFeatures(1, SacredFistFlurryOfBlowsUnlock)
                 .AddToAddFeatures(11, SacredFistFlurryOfBlowsUnlock11)
+                .AddToAddFeatures(1, SacredFistUnarmedStrike)
+                .AddToAddFeatures(4, FeatureRefs.MonkUnarmedStrikeLevel4.ToString())
+                .AddToAddFeatures(8, FeatureRefs.MonkUnarmedStrikeLevel8.ToString())
+                .AddToAddFeatures(12, FeatureRefs.MonkUnarmedStrikeLevel12.ToString())
+                .AddToAddFeatures(16, FeatureRefs.MonkUnarmedStrikeLevel16.ToString())
+                .AddToAddFeatures(20, FeatureRefs.MonkUnarmedStrikeLevel20.ToString())
+
+                .AddToRemoveFeatures(1, WarpriestProficiency)
+                .AddToRemoveFeatures(1, WarpriestSacredWeapon)
+                .AddToRemoveFeatures(1, FeatureSelectionRefs.WarpriestWeaponFocusSelection.ToString())
+                .AddToRemoveFeatures(3, FeatureRefs.SacredWeaponEnchantFeature.ToString())
+                .AddToRemoveFeatures(3, FeatureRefs.SacredWeaponEnchantPlus2.ToString())
+                .AddToRemoveFeatures(3, FeatureRefs.SacredWeaponEnchantPlus3.ToString())
+                .AddToRemoveFeatures(3, FeatureRefs.SacredWeaponEnchantPlus4.ToString())
+                .AddToRemoveFeatures(3, FeatureRefs.SacredWeaponEnchantPlus5.ToString())
+                /*------------------------------------------*/
+
                 .Configure();
         }
 
