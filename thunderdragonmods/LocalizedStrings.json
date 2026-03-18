@@ -57,7 +57,7 @@
   {
      "Key": "SacredFistAcBonus.Name",
      "ProcessTemplates": false,
-     "enGB": "AC Bonus (Su)"
+     "enGB": "AC Bonus"
   },
 
   {
@@ -80,7 +80,7 @@
   {
      "Key": "SacredFistFlurryOfBlows.Name",
      "ProcessTemplates": false,
-     "enGB": "Flurry of Blows (Ex)"
+     "enGB": "Flurry of Blows"
   },
 
   {
@@ -102,7 +102,7 @@
   {
      "Key": "SacredFistBlessedFortitude.Name",
      "ProcessTemplates": false,
-     "enGB": "Blessed Fortitude (Su)"
+     "enGB": "Blessed Fortitude"
   },
 
   {
@@ -124,7 +124,7 @@
   {
      "Key": "SacredFistKiPool.Name",
      "ProcessTemplates": false,
-     "enGB": "Ki Pool (Su)"
+     "enGB": "Ki Pool"
   },
 
   {
@@ -135,7 +135,7 @@
   {
      "Key": "SacredFistMiraculousFortitude.Name",
      "ProcessTemplates": false,
-     "enGB": "Miraculous Fortitude (Su)"
+     "enGB": "Miraculous Fortitude"
   },
 
   {
