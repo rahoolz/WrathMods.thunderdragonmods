@@ -133,13 +133,35 @@
   },
 
   {
+     "Key": "SacredFistKiPoolDodge.Name",
+     "ProcessTemplates": false,
+     "enGB": "Ki Pool - Swift Dodge"
+  },
+
+  {
+     "Key": "SacredFistKiPoolDodge.Description",
+     "enGB": "By spending 1 point from his ki pool as a swift action, a monk can give himself a +4 dodge bonus to AC for 1 round"
+  },
+
+  {
+     "Key": "SacredFistKiPoolInsight.Name",
+     "ProcessTemplates": false,
+     "enGB": "Ki Pool - Enlightened Avoidance"
+  },
+
+  {
+     "Key": "SacredFistKiPoolInsight.Description",
+     "enGB": "By spending 1 point from his ki pool as a swift action, a monk can give himself a +1 insight bonus to AC for 1 minute. His insight bonus increases by 1 for every 3 levels above 7th (to a maximum of +5 at 19th level)"
+  },
+
+  {
      "Key": "SacredFistMiraculousFortitude.Name",
      "ProcessTemplates": false,
      "enGB": "Miraculous Fortitude"
   },
 
   {
-     "Key": "SacredFistMiraculousFortitudeM.Description",
+     "Key": "SacredFistMiraculousFortitude.Description",
      "enGB": "At 9th level, the sacred fistÅfs blessed fortitude ability improves. He still takes no damage or negative effect when he succeeds at a Fortitude save, but now when he fails a Fortitude saving throw against a spell or effect that deals damage (including ability damage and drain), he takes only half the amount of damage. A helpless sacred fist does not gain the benefit of miraculous fortitude.\n\n This ability replaces the bonus feat gained at 9th level."
   }
 ]

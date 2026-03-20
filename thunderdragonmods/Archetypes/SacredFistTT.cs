@@ -16,6 +16,7 @@ using BlueprintCore.Utils.Types;
 using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Prerequisites;
 using Kingmaker.Designers.Mechanics.Buffs;
 using Kingmaker.Designers.Mechanics.Facts;
 using Kingmaker.EntitySystem.Stats;
@@ -24,6 +25,7 @@ using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Components;
 using Microsoft.Build.Utilities;
+using thunderdragonmods.Utils;
 
 namespace thunderdragonmods.Archetypes
 {
@@ -76,6 +78,8 @@ namespace thunderdragonmods.Archetypes
         private static readonly string SacredFistKiPoolDodgeBuffGuid = "1810A7A1-3C3C-4511-90BD-2CB8D35645BA";
         private static readonly string SacredFistKiPoolInsightName = "KiPoolInsight.SacredFist";
         private static readonly string SacredFistKiPoolInsightGuid = "32E079AC-50AE-4679-B24B-2C9897194913";
+        private static readonly string SacredFistKiPoolInsightBuffName = "KiPoolInsightBuff.SacredFist";
+        private static readonly string SacredFistKiPoolInsightBuffGuid = "4F81746D-8CA6-4E68-934A-E6050A68B6A7";
 
         private static readonly BlueprintFeature WarpriestProficiency = BlueprintTool.Get<BlueprintFeature>("ad29d445f1534474db8295a61e42d08b");
         private static readonly BlueprintFeature MonkProficiency = BlueprintTool.Get<BlueprintFeature>("c7d6f5244c617734a8a76b6785a752b4");
@@ -119,6 +123,11 @@ namespace thunderdragonmods.Archetypes
                 )
                 .Configure();
 
+            /* PREREQS */
+
+
+            /* PREREQS END */
+
             /* AC BONUS SECTION */
             var SacredFistWisAc = ContextRankConfigs.StatBonus(StatType.Wisdom, type: AbilityRankType.DamageDice);
             var SacredFistLvlAc = ContextRankConfigs
@@ -131,7 +140,7 @@ namespace thunderdragonmods.Archetypes
                 ],
                 type: AbilityRankType.DamageBonus,
                 max:20)
-                .WithDivStepProgression(divisor:1);
+                .WithDivStepProgression(divisor:4);
             
             /*var SacredFistLvlAc = ContextRankConfigs
                 .ClassLevel(classes: [CharacterClassRefs.WarpriestClass.ToString()], type: AbilityRankType.DamageBonus)
@@ -175,22 +184,27 @@ namespace thunderdragonmods.Archetypes
             /* AC BONUS SECTION END */
 
             /* FLURRY OF BLOWS SECTION */
-            var SacredFistFlurryOfBlows = FeatureConfigurator.New(SacredFistFoBName, SacredFistFoBGuid)
+            /* var SacredFistFlurryOfBlows = FeatureConfigurator.New(SacredFistFoBName, SacredFistFoBGuid)
                 .SetDisplayName("SacredFistFlurryOfBlows.Name")
                 .SetDescription("SacredFistFlurryOfBlows.Description")
                 .AddBuffExtraAttack(number: 1)
                 .SetIsClassFeature(true)
                 .Configure();
+            */
+
+           // var asd = new FakeFeats() { FakeFact = BlueprintTool.GetRef<BlueprintUnitFactReference>("fd99770e6bd240a4aab70f7af103e56a") };
 
             var SacredFistFlurryOfBlowsUnlock = FeatureConfigurator.New(SacredFistFoBUnlockName, SacredFistFoBUnlockGuid)
                 .SetDisplayName("SacredFistFlurryOfBlows.Name")
                 .SetDescription("SacredFistFlurryOfBlows.Description")
-                .AddMonkNoArmorAndMonkWeaponFeatureUnlock(newFact: SacredFistFlurryOfBlows)
+                //.AddMonkNoArmorAndMonkWeaponFeatureUnlock(newFact: SacredFistFlurryOfBlows)
+                //.AddComponent(component: asd)
+                .AddFacts(facts: [FeatureRefs.MonkFlurryOfBlowstUnlock.ToString()])
                 .SetIsClassFeature(true)
                 .SetIcon(Utils.ImportSprite.CreateSprite("thunderdragonmods.Icons.FlurryOfBlows.png"))
                 .Configure();
 
-            var SacredFistFlurryOfBlows11 = FeatureConfigurator.New(SacredFistFoB11Name, SacredFistFoB11Guid)
+            /*var SacredFistFlurryOfBlows11 = FeatureConfigurator.New(SacredFistFoB11Name, SacredFistFoB11Guid)
                .SetDisplayName("SacredFistFlurryOfBlows.Name")
                .SetDescription("SacredFistFlurryOfBlows.Description")
                .AddBuffExtraAttack(number: 1)
@@ -199,8 +213,9 @@ namespace thunderdragonmods.Archetypes
                .SetHideInCharacterSheetAndLevelUp(true)
                .SetIsPrerequisiteFor(isPrerequisiteFor: [FeatureRefs.CraneStyleFeat.ToString()])
                .Configure();
+            */
 
-            var SacredFistFlurryOfBlowsUnlock11 = FeatureConfigurator.New(SacredFistFoB11UnlockName, SacredFistFoB11UnlockGuid)
+            /* var SacredFistFlurryOfBlowsUnlock11 = FeatureConfigurator.New(SacredFistFoB11UnlockName, SacredFistFoB11UnlockGuid)
                 .SetDisplayName("SacredFistFlurryOfBlows.Name")
                 .SetDescription("SacredFistFlurryOfBlows.Description")
                 .AddMonkNoArmorAndMonkWeaponFeatureUnlock(newFact: SacredFistFlurryOfBlows11)
@@ -208,6 +223,7 @@ namespace thunderdragonmods.Archetypes
                 .SetIsClassFeature(true)
                 .SetHideInUI(false)
                 .Configure();
+            */
             /* FLURRY OF BLOWS SECTION END */
 
             /* UNARMED STRIKE BONUS FEAT DAMAGE */
@@ -236,10 +252,12 @@ namespace thunderdragonmods.Archetypes
             /* BLESSED MIRACULOUS FORTITUDE SECTION END */
 
             /* BONUS STYLE FEAT */
-            var SacredFistStyleFeat = FeatureSelectionConfigurator.New(SacredFistBonusStyleFeatName, SacredFistBonusStyleFeatGuid)
+            var SacredFistStyleFeat = FeatureSelectionConfigurator.New(SacredFistBonusStyleFeatName, SacredFistBonusStyleFeatGuid, groups: FeatureGroup.StyleFeat)
                 .SetDisplayName("SacredFistStyleFeat.Name")
                 .SetDescription("SacredFistStyleFeat.Description")
                 .SetIsClassFeature(true)
+                .SetIgnorePrerequisites(false)
+                .SetObligatory(true)
                 .AddToAllFeatures(allFeatures: [
                     FeatureRefs.CraneStyleFeat.ToString(),
                     FeatureRefs.CraneStyleWingFeat.ToString(),
@@ -259,16 +277,22 @@ namespace thunderdragonmods.Archetypes
                     FeatureRefs.ShaitanStyleFeature.ToString(),
                     FeatureRefs.ShaitanSkinFeature.ToString(),
                     FeatureRefs.ShaitanEarthblastFeature.ToString(),
-                    ])
+                    ]) 
                 .Configure();
 
-            FeatureSelectionConfigurator.For(SacredFistStyleFeat)
+            /* FeatureSelectionConfigurator.For(SacredFistStyleFeat)
+                .AddToFeatureSelection([
+                    SnakeStyle,
+                    SnakeSidewind,
+                    SnakeFang
+                    ])
                 .AddToAllFeatures([
                     SnakeStyle,
                     SnakeSidewind, 
                     SnakeFang
                     ])
                 .Configure();
+            */
 
             var SacredFistAsMonkLvl = FeatureConfigurator.New(SacredFistAsMonkLvlName, SacredFistAsMonkLvlGuid)
                 .AddClassLevelsForPrerequisites(
@@ -284,7 +308,7 @@ namespace thunderdragonmods.Archetypes
             /* KI POOL SECTION */
             var SacredFistKiPoolAmount = ResourceAmountBuilder.New(baseValue: 0)
                 .IncreaseByStat(stat: StatType.Wisdom)
-                .IncreaseByLevelStartPlusDivStep(classes: [CharacterClassRefs.WarpriestClass.ToString()], startingLevel: 4, levelsPerStep: 2);
+                .IncreaseByLevelStartPlusDivStep(classes: [CharacterClassRefs.WarpriestClass.ToString()], startingLevel: 4, bonusPerStep: 1, levelsPerStep: 2);
 
             var SacredFistKiPoolResource = AbilityResourceConfigurator.New(SacredFistKiPoolResourceName, SacredFistKiPoolResourceGuid)
                 .SetLocalizedName("SacredFistKiPoolResource.Name")
@@ -292,11 +316,39 @@ namespace thunderdragonmods.Archetypes
                 .Configure();
 
             var SacredFistKiPoolDodgeBuff = BuffConfigurator.New(SacredFistKiPoolDodgeBuffName, SacredFistKiPoolDodgeBuffGuid)
+                .SetDisplayName("SacredFistKiPoolDodge.Name")
+                .SetDescription("SacredFistKiPoolDodge.Description")
                 .AddStatBonus(stat: StatType.AC, descriptor: ModifierDescriptor.Dodge, value: 4)
                 .Configure();
 
             var SacredFistKiPoolDodge = AbilityConfigurator.New(SacredFistKiPoolDodgeName, SacredFistKiPoolDodgeGuid)
+                .SetDisplayName("SacredFistKiPoolDodge.Name")
+                .SetDescription("SacredFistKiPoolDodge.Description")
+                .SetIcon(icon: Utils.ImportSprite.CreateSprite(image: "thunderdragonmods.Icons.Dodge.png"))
+                .SetType(Kingmaker.UnitLogic.Abilities.Blueprints.AbilityType.Supernatural)
+                .SetActionType(actionType: Kingmaker.UnitLogic.Commands.Base.UnitCommand.CommandType.Swift)
                 .AddAbilityEffectRunAction(ActionsBuilder.New().ApplyBuff(buff: SacredFistKiPoolDodgeBuff, durationValue: ContextDuration.Fixed(1)))
+                .AddAbilityResourceLogic(requiredResource: SacredFistKiPoolResource, isSpendResource: true, amount: 1)
+                .Configure();
+
+            var SacredFistInsightScaling = ContextRankConfigs
+                .ClassLevel(classes: [CharacterClassRefs.WarpriestClass.ToString()])
+                .WithStartPlusDivStepProgression(divisor: 3, start: 7, delayStart: true);
+
+            var SacredFistKiPoolInsightBuff = BuffConfigurator.New(SacredFistKiPoolInsightBuffName, SacredFistKiPoolInsightBuffGuid)
+                .SetDisplayName("SacredFistKiPoolInsight.Name")
+                .SetDescription("SacredFistKiPoolInsight.Description")
+                .AddContextRankConfig(SacredFistInsightScaling)
+                .AddContextStatBonus(stat:StatType.AC, value: ContextValues.Rank(AbilityRankType.Default), descriptor: ModifierDescriptor.Insight)
+                .Configure();
+
+            var SacredFistKiPoolInsight = AbilityConfigurator.New(SacredFistKiPoolInsightName, SacredFistKiPoolInsightGuid)
+                .SetDisplayName("SacredFistKiPoolInsight.Name")
+                .SetDescription("SacredFistKiPoolInsight.Description")
+                .SetType(Kingmaker.UnitLogic.Abilities.Blueprints.AbilityType.Supernatural)
+                .SetActionType(actionType: Kingmaker.UnitLogic.Commands.Base.UnitCommand.CommandType.Swift)
+                .SetIcon(icon: Utils.ImportSprite.CreateSprite(image: "thunderdragonmods.Icons.InsightfulAvoid.png"))
+                .AddAbilityEffectRunAction(ActionsBuilder.New().ApplyBuff(buff: SacredFistKiPoolInsightBuff, durationValue: ContextDuration.Fixed(10)))
                 .AddAbilityResourceLogic(requiredResource: SacredFistKiPoolResource, isSpendResource: true, amount: 1)
                 .Configure();
 
@@ -305,7 +357,7 @@ namespace thunderdragonmods.Archetypes
                .SetDescription("SacredFistKiPool.Description")
                .SetIsClassFeature(true)
                .AddAbilityResources(resource: SacredFistKiPoolResource, restoreAmount: true)
-               .AddFacts([SacredFistKiPoolDodge])
+               .AddFacts([SacredFistKiPoolDodge, SacredFistKiPoolInsight])
                .Configure();
 
             /* KI POOL SECTION END */
@@ -323,7 +375,7 @@ namespace thunderdragonmods.Archetypes
                 .AddToAddFeatures(7, FeatureRefs.KiStrikeMagic.ToString())
                 .AddToAddFeatures(8, FeatureRefs.MonkUnarmedStrikeLevel8.ToString())
                 .AddToAddFeatures(9, SacredFistMiraculousFortitude)
-                .AddToAddFeatures(11, SacredFistFlurryOfBlowsUnlock11)
+                .AddToAddFeatures(11, FeatureRefs.MonkFlurryOfBlowstLevel11Unlock.ToString())
                 .AddToAddFeatures(11, FeatureRefs.KiStrikeColdIronSilver.ToString())
                 .AddToAddFeatures(12, SacredFistStyleFeat)
                 .AddToAddFeatures(13, FeatureRefs.KiStrikeLawful.ToString())
@@ -353,7 +405,19 @@ namespace thunderdragonmods.Archetypes
                 .AddToRemoveFeatures(20, FeatureRefs.SacredWeaponEnchantPlus5.ToString())
 
                 /*------------------------------------------*/
-
+                .Configure();
+            ProgressionConfigurator.For(ProgressionRefs.WarpriestProgression)
+                .AddToUIGroups(new Blueprint<BlueprintFeatureBaseReference>[] {
+                    FeatureRefs.KiStrikeMagic.ToString(),
+                    FeatureRefs.KiStrikeColdIronSilver.ToString(),
+                    FeatureRefs.KiStrikeLawful.ToString(),
+                    FeatureRefs.KiStrikeAdamantine.ToString()
+                })
+                .AddToUIGroups(new Blueprint<BlueprintFeatureBaseReference>[]
+                {
+                    SacredFistBlessedFortitude,
+                    SacredFistMiraculousFortitude
+                })
                 .Configure();
         }
 
