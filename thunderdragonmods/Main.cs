@@ -6,6 +6,7 @@ using BlueprintCore.Utils;
 using Kingmaker.Blueprints.JsonSystem;
 using thunderdragonmods.Feats;
 using thunderdragonmods.Archetypes;
+using thunderdragonmods.WeaponType;
 
 namespace thunderdragonmods;
 
@@ -48,6 +49,7 @@ public static class Main {
                 MartialAptitude.Configure();
                 DervishDanceAtkOnly.Configure();
                 SacredFistTT.Configure();
+                GolemArm.Configure();
                 // Insert your mod's patching methods here
                 // Example
                 // SuperAwesomeFeat.Configure()
