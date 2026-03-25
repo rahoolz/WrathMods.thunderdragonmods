@@ -185,5 +185,16 @@
   {
      "Key": "GolemArm.Description",
      "enGB": "A Jistkan artificer begins play with a golem arm grafted in place of one of his arms. The golem arm is a masterwork weapon that is treated as an unarmed strike and deals damage as if he were a monk 2 levels lower than his class level (minimum 1st level). The golem arm is made from basic parts and mundane materials that grant no additional benefits. A Jistkan artificer can recreate his golem arm from other materials by spending 1 day and paying an additional +50% of the normal cost of the special material used in the creation of this new golem arm. For the purposes of determining the weapon type and weight for special materials, the golem arm is treated as a heavy mace. If a Jistkan artificer recreates his golem arm, any previously used special materials are destroyed. The arm gains no benefits from items that enhance unarmed strikes, such as an amulet of mighty fists. \n\nAt 1st level, a Jistkan artificer can use his arcane pool to enhance his unarmed strikes as if they were manufactured weapons. At 5th level, he can use this ability to add any of the following special abilities to his unarmed strikes: corrosive, corrosive burst, defending, flaming, flaming burst, frost, icy burst, impact, shock, shocking burst, or thundering. At 11th level, he gains access to the following special abilities: brilliant energy and speed."
+  },
+
+  {
+     "Key": "ArtiUnarmed.Name",
+     "ProcessTemplates": false,
+     "enGB": "Improved Unarmed Strike"
+  },
+
+  {
+     "Key": "ArtiUnarmed.Description",
+     "enGB": "A Jistkan artificer gains Improved Unarmed Strike as a bonus feat."
   }
 ]

@@ -50,6 +50,7 @@ public static class Main {
                 DervishDanceAtkOnly.Configure();
                 SacredFistTT.Configure();
                 GolemArm.Configure();
+                JistkanArtificer.Configure();
                 // Insert your mod's patching methods here
                 // Example
                 // SuperAwesomeFeat.Configure()

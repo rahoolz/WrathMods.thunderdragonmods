@@ -7,9 +7,12 @@ using BlueprintCore.Blueprints.Configurators.Items.Weapons;
 using BlueprintCore.Blueprints.References;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Items.Weapons;
+using Kingmaker.Blueprints.Root.Strings;
+using Kingmaker.Enums;
 using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules.Damage;
+using Kingmaker.Utility;
 
 namespace thunderdragonmods.WeaponType
 {
@@ -26,26 +29,35 @@ namespace thunderdragonmods.WeaponType
             var icon = AbilityRefs.StoneFist.Reference.Get().Icon;
             var Visual = new WeaponVisualParameters();
             Visual.m_WeaponAnimationStyle = Kingmaker.View.Animation.WeaponAnimationStyle.Fist;
-            
+            Visual.m_WeaponModel = null;
+            Visual.m_WeaponBeltModelOverride = null;
+            Visual.m_WeaponSheathModelOverride = null;
+
 
             var DmgType = new DamageTypeDescription();
             DmgType.Physical.Form = Kingmaker.Enums.Damage.PhysicalDamageForm.Bludgeoning;
+            var range = new Feet();
+            range.m_Value = 5;
+
 
             var GolemArm = WeaponTypeConfigurator.New(GolemArmName, GolemArmGuid)
-                .SetTypeNameText("GolemArm")
-                .SetDefaultNameText("GolemArm")
-                .SetCategory(Kingmaker.Enums.WeaponCategory.HeavyMace)
+                .SetTypeNameText("GolemArm.Name")
+                .SetDefaultNameText("GolemArm.Name")
+                .SetCategory(Kingmaker.Enums.WeaponCategory.PunchingDagger)
                 .SetVisualParameters(Visual)
+                .SetAttackType(AttackType.Melee)
                 .SetBaseDamage(baseDamage: new DiceFormula(1, diceType: DiceType.D6))
-                .SetDamageType(damageType: DmgType)
+                .SetDamageType(DmgType)
+                .SetAttackRange(attackRange: range)
                 .SetIcon(icon)
+                .SetIsLight(true)
                 .SetIsMonk(true)
+                .SetIsNatural(false)
                 .SetIsUnarmed(true)
                 .SetIsOneHanded(true)
-                .Configure();
+                .Configure();            
 
-
-            var StandardGolemFist = ItemWeaponConfigurator.New(GolemArmStdName, GolemArmStdGuid)
+            var StandardGolemArm = ItemWeaponConfigurator.New(GolemArmStdName, GolemArmStdGuid)
                 .SetDisplayNameText("GolemArm.Name")
                 .SetType(type: GolemArm)
                 .SetIcon(icon)
