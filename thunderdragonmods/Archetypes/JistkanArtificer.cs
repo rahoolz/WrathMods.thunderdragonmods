@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlueprintCore.Actions.Builder;
+using BlueprintCore.Actions.Builder.BasicEx;
+using BlueprintCore.Actions.Builder.ContextEx;
 using BlueprintCore.Blueprints.Configurators;
 using BlueprintCore.Blueprints.Configurators.Items.Ecnchantments;
 using BlueprintCore.Blueprints.Configurators.Items.Weapons;
@@ -11,17 +14,30 @@ using BlueprintCore.Blueprints.CustomConfigurators.Classes;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Abilities;
 using BlueprintCore.Blueprints.CustomConfigurators.UnitLogic.Buffs;
 using BlueprintCore.Blueprints.References;
+using BlueprintCore.Conditions.Builder;
+using BlueprintCore.Conditions.Builder.ContextEx;
 using BlueprintCore.Utils;
+using BlueprintCore.Utils.Types;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Designers.EventConditionActionSystem.Actions;
+using Kingmaker.Designers.EventConditionActionSystem.Evaluators;
 using Kingmaker.Designers.Mechanics.Facts;
+using Kingmaker.ElementsSystem;
+using Kingmaker.Enums;
+using Kingmaker.UnitLogic.Abilities.Components.CasterCheckers;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Class.Kineticist;
 using Kingmaker.UnitLogic.Class.Kineticist.ActivatableAbility;
 using Kingmaker.UnitLogic.FactLogic;
+using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Mechanics.Components;
+using Kingmaker.UnitLogic.Mechanics.Conditions;
+using Kingmaker.Utility;
+using Owlcat.QA.Validation;
 using thunderdragonmods.WeaponType;
+using TabletopTweaks.Core.NewComponents;
 
 namespace thunderdragonmods.Archetypes
 {
@@ -44,6 +60,14 @@ namespace thunderdragonmods.Archetypes
 
         private static readonly string ArtiUnarmedName = "UnarmedStrike.Arti";
         private static readonly string ArtiUnarmedGuid = "AB8EDEB4-FED9-4B3F-A49C-43353B03E785";
+
+        private static readonly string ArtiSpellstrikeName = "SpellStrike.Arti";
+        private static readonly string ArtiSpellstrikeGuid = "C1C3611F-6504-4A2F-B80D-9CFFB86C86AA";
+        private static readonly string ArtiSpellstrikeFeatureName = "SpellStrike.Feature.Arti";
+        private static readonly string ArtiSpellstrikeFeatureGuid = "B37857E6-3FD0-422C-B390-9D81D30E97A9";
+        private static readonly string ArtiSpellstrikeBuffName = "SpellStrike.Buff.Arti";
+        private static readonly string ArtiSpellstrikeBuffGuid = "9E83F191-5132-42F1-88CC-2F112E639AD9";
+
 
         private static readonly string ArtiThunderingName = "ThunderingEnchant.Arti";
         private static readonly string ArtiThunderingGuid = "229DFA8F-DFF9-4391-8E56-579266ED6B08";
@@ -70,6 +94,11 @@ namespace thunderdragonmods.Archetypes
         private static readonly string ArtiEnchant2Name = "EnchantPlus2.Arti";
         private static readonly string ArtiEnchant2Guid = "88E1E8AC-727D-4456-BAE4-F043AEABE625";
 
+        private static readonly string ArtiEmpArmName = "EmpoweredArm.Arti";
+        private static readonly string ArtiEmpArmGuid = "BEBC019F-598A-4A66-A304-AD2F5D655FC9";
+        private static readonly string ArtiEmpArmBuffName = "EmpoweredArm.Buff.Arti";
+        private static readonly string ArtiEmpArmBuffGuid = "2F78BD03-6C62-4273-B272-504AFC05C92A";
+
 
         public static void Configure()
         {
@@ -78,10 +107,15 @@ namespace thunderdragonmods.Archetypes
             var GolemArmWeapon = "GolemArm.Weapon.Standard";
             var StandardHeavyMace = ItemWeaponRefs.StandardHeavyMace;
 
+            Main.Log.Log("Test");
+
+
             var JistkanArtificerArchetype = ArchetypeConfigurator.New(ArtiName, ArtiGuid, clazz: CharacterClassRefs.MagusClass)
                 .SetLocalizedName("JistkanArti.Name")
                 .SetLocalizedDescription("JistkanArti.Description")
                 .SetReplaceSpellbook(SpellbookRefs.SwordSaintSpellbook.ToString())
+                .AddToStartingItems(ItemWeaponRefs.Rapier.ToString())
+                .AddToStartingItems(ItemWeaponRefs.ColdIronLongspear.ToString())
                 .Configure();
 
             var ArtiDiminishedSpellcasting = FeatureConfigurator.New(ArtiDimSpellName, ArtiDimSpellGuid)
@@ -91,6 +125,7 @@ namespace thunderdragonmods.Archetypes
             /* SETUP ARCHETYPE END */
 
             /* GOLEM ARM FEATURE */
+
             var GolemArmBuff = BuffConfigurator.New(GolemArmBuffName, GolemArmBuffGuid)
                 .SetDisplayName("GolemArm.Name")
                 .SetDescription("GolemArm.Description")
@@ -101,24 +136,18 @@ namespace thunderdragonmods.Archetypes
                     typeof(AddAbilityUseTrigger)])
                 .SetIcon(icon)
                 .AddKineticistBlade(GolemArmWeapon.ToString())
-                //.AddKineticistBlade(ItemWeaponRefs.AbruptForceItem.ToString())
+                .AddFactContextActions(activated: ActionsBuilder.New().EnhanceWeaponGreater(
+                    durationValue: new ContextDurationValue(),
+                    enchantLevel: new ContextValue() { Value = 1},
+                    enchantment: [WeaponEnchantmentRefs.Enhancement5.ToString()]))
                 .SetStacking(Kingmaker.UnitLogic.Buffs.Blueprints.StackingType.Replace)
                 .Configure();
 
             var GolemArmFeature = FeatureConfigurator.New(GolemArmName, GolemArmGuid)
                 .SetDisplayName("GolemArm.Name")
                 .SetDescription("GolemArm.Description")
-                .Configure();
-
-            var GolemArmReset = AbilityConfigurator.New(ArmResetName, ArmResetGuid)
-                .SetDisplayName("GolemArm.Name")
-                .SetDescription("GolemArm.Description")
                 .AddFacts(facts: [GolemArmBuff])
                 .Configure();
-
-            /* FeatureConfigurator.For(GolemArmFeature)
-                .AddFacts(facts: [GolemArmReset])
-                .Configure(); */
 
             /* GOLEM ARM FEATURE END */
 
@@ -133,6 +162,7 @@ namespace thunderdragonmods.Archetypes
 
             /* WEAPON ENCHANT */
 
+            var thundicon = AbilityRefs.Shout.Reference.Get().Icon;
             var ArtiThunderingBuff = BuffConfigurator.New(ArtiThunderingBuffName, ArtiThunderingBuffGuid)
                 .SetDisplayName("ArtiThunderingBuff.Name")
                 .AddBondProperty(enchantPool: EnchantPoolType.ArcanePool, enchant: WeaponEnchantmentRefs.Thundering.ToString())
@@ -143,6 +173,7 @@ namespace thunderdragonmods.Archetypes
             var ArtiThunderingChoice = ActivatableAbilityConfigurator.New(ArtiThunderingName, ArtiThunderingGuid)
                 .SetDisplayName("ArtiThunderingEnchant.Name")
                 .SetDescription("ArtiThunderingEnchant.Description")
+                .SetIcon(thundicon)
                 .SetGroup(Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityGroup.ArcaneWeaponProperty)
                 .SetWeightInGroup(1)
                 .SetBuff(buff: ArtiThunderingBuff)
@@ -150,6 +181,7 @@ namespace thunderdragonmods.Archetypes
                 .SetActivateWithUnitCommand(activateWithUnitCommand: Kingmaker.UnitLogic.Commands.Base.UnitCommand.CommandType.Free)
                 .Configure();
 
+            var corroicon = AbilityRefs.CorrosiveTouch.Reference.Get().Icon;
             var ArtiCorrosiveBuff = BuffConfigurator.New(ArtiCorrosiveBuffName, ArtiCorrosiveBuffGuid)
                 .SetDisplayName("ArtiCorrosiveBuff.Name")
                 .AddBondProperty(enchantPool: EnchantPoolType.ArcanePool, enchant: WeaponEnchantmentRefs.Corrosive.ToString())
@@ -160,6 +192,7 @@ namespace thunderdragonmods.Archetypes
             var ArtiCorrosiveChoice = ActivatableAbilityConfigurator.New(ArtiCorrosiveName, ArtiCorrosiveGuid)
                 .SetDisplayName("ArtiCorrosiveEnchant.Name")
                 .SetDescription("ArtiCorrosiveEnchant.Description")
+                .SetIcon(corroicon)
                 .SetGroup(Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityGroup.ArcaneWeaponProperty)
                 .SetWeightInGroup(1)
                 .SetBuff(buff: ArtiCorrosiveBuff)
@@ -167,6 +200,7 @@ namespace thunderdragonmods.Archetypes
                 .SetActivateWithUnitCommand(activateWithUnitCommand: Kingmaker.UnitLogic.Commands.Base.UnitCommand.CommandType.Free)
                 .Configure();
 
+            var corrobursticon = AbilityRefs.CausticEruption.Reference.Get().Icon;
             var ArtiCorrosiveBurstBuff = BuffConfigurator.New(ArtiCorrosiveBurstBuffName, ArtiCorrosiveBurstBuffGuid)
                 .SetDisplayName("ArtiCorrosiveBurstBuff.Name")
                 .AddBondProperty(enchantPool: EnchantPoolType.ArcanePool, enchant: WeaponEnchantmentRefs.CorrosiveBurst.ToString())
@@ -177,6 +211,7 @@ namespace thunderdragonmods.Archetypes
             var ArtiCorrosiveBurstChoice = ActivatableAbilityConfigurator.New(ArtiCorrosiveBurstName, ArtiCorrosiveBurstGuid)
                 .SetDisplayName("ArtiCorrosiveBurstEnchant.Name")
                 .SetDescription("ArtiCorrosiveBurstEnchant.Description")
+                .SetIcon(corrobursticon)
                 .SetWeightInGroup(2)
                 .SetGroup(Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityGroup.ArcaneWeaponProperty)
                 .SetBuff(buff: ArtiCorrosiveBurstBuff)
@@ -184,10 +219,11 @@ namespace thunderdragonmods.Archetypes
                 .SetActivateWithUnitCommand(activateWithUnitCommand: Kingmaker.UnitLogic.Commands.Base.UnitCommand.CommandType.Free)
                 .Configure();
 
+            var impacticon = AbilityRefs.LeadBlades.Reference.Get().Icon;
             var ImpactEnchant = WeaponEnchantmentConfigurator.New(ArtiImpactEnchName, ArtiImpactEnchGuid)
                 .SetEnchantName("ArtiImpactBuff.Name")
                 .SetEnchantmentCost(2)
-                .AddComponent(new MeleeWeaponSizeChange() { SizeCategoryChange = 3})
+                .AddComponent(new WeaponSizeChange() { SizeCategoryChange = 5})
                 .Configure();
             var ArtiImpactBuff = BuffConfigurator.New(ArtiImpactBuffName, ArtiImpactBuffGuid)
                 .SetDisplayName("ArtiImpactBuff.Name")
@@ -199,9 +235,10 @@ namespace thunderdragonmods.Archetypes
             var ArtiImpactChoice = ActivatableAbilityConfigurator.New(ArtiImpactName, ArtiImpactGuid)
                 .SetDisplayName("ArtiImpactEnchant.Name")
                 .SetDescription("ArtiImpactEnchant.Description")
+                .SetIcon(impacticon)
                 .SetGroup(Kingmaker.UnitLogic.ActivatableAbilities.ActivatableAbilityGroup.ArcaneWeaponProperty)
                 .SetWeightInGroup(2)
-                .SetBuff(buff: ArtiCorrosiveBurstBuff)
+                .SetBuff(buff: ArtiImpactBuff)
                 .SetActivationType(activationType: Kingmaker.UnitLogic.ActivatableAbilities.AbilityActivationType.Immediately)
                 .SetActivateWithUnitCommand(activateWithUnitCommand: Kingmaker.UnitLogic.Commands.Base.UnitCommand.CommandType.Free)
                 .Configure();
@@ -225,11 +262,73 @@ namespace thunderdragonmods.Archetypes
 
             /* WEAPON ENCHANT END */
 
+            /* UNARMED SPELLSTRIKE */
+
+            var USSicon = AbilityRefs.TelekineticFist.Reference.Get().Icon;
+            var IsUsingUnarmed = ConditionsBuilder.New().IsWeaponEquipped(category: WeaponCategory.UnarmedStrike, checkOnCaster: true, checkSlot: true, checkWeaponCategory: true, slot: ContextConditionIsWeaponEquipped.CheckedSlot.PrimaryHand, negate: false).Build();
+            var ArtiSpellstrikeBuff = BuffConfigurator.New(ArtiSpellstrikeBuffName, ArtiSpellstrikeBuffGuid)
+                .SetDisplayName("ArtiUnarmedSpellstrike.Name")
+                .SetDescription("ArtiUnarmedSpellstrike.Descriprtion")
+                .SetIcon(USSicon)
+                .AddComponent(new RecalculateOnEquipmentChange())
+                //.SetFlags(BlueprintBuff.Flags.HiddenInUi)
+                .AddFactContextActions(
+                    activated:
+                        ActionsBuilder.New().Conditional(IsUsingUnarmed,
+                        ifTrue: 
+                        ActionsBuilder.New().ApplyBuffPermanent(buff: BuffRefs.SpellStrikeBuff.ToString(), isNotDispelable: true).Build(),
+                        ifFalse:
+                        ActionsBuilder.New().RemoveBuff(buff: BuffRefs.SpellStrikeBuff.ToString(), toCaster: true, onlyFromCaster: true).Build()
+                        ),
+                    deactivated: ActionsBuilder.New().RemoveBuff(buff: BuffRefs.SpellStrikeBuff.ToString(), toCaster: true, onlyFromCaster: true).Build()
+                     )
+                .Configure();
+
+            var ArtiUnarmedSpellstrike = ActivatableAbilityConfigurator.New(ArtiSpellstrikeName, ArtiSpellstrikeGuid)
+                //.CopyFrom(ActivatableAbilityRefs.SpellStrikeAbility)
+                .SetDisplayName("ArtiUnarmedSpellstrike.Name")
+                .SetDescription("ArtiUnarmedSpellstrike.Description")
+                .SetIcon(USSicon)
+                .SetBuff(ArtiSpellstrikeBuff)
+                //.SetBuff(BuffRefs.SpellStrikeBuff.ToString())
+                .SetActivationType(Kingmaker.UnitLogic.ActivatableAbilities.AbilityActivationType.Immediately)
+                .SetActivateWithUnitCommand(Kingmaker.UnitLogic.Commands.Base.UnitCommand.CommandType.Free)
+                .SetActivateOnUnitAction(Kingmaker.UnitLogic.ActivatableAbilities.AbilityActivateOnUnitActionType.Attack)
+                .SetDeactivateImmediately(true)
+                .AddDeactivateTrigger(conditions: ConditionsBuilder.New().IsWeaponEquipped(category: WeaponCategory.Longspear, slot: ContextConditionIsWeaponEquipped.CheckedSlot.PrimaryHand, checkOnCaster: true, checkWeaponCategory: true, checkSlot: true, negate: false).Build())
+                .Configure();
+
+            var ArtiUnarmedSpellstrikeFeature = FeatureConfigurator.New(ArtiSpellstrikeFeatureName, ArtiSpellstrikeFeatureGuid)
+                .SetDisplayName("ArtiUnarmedSpellstrikeFeature.Name")
+                .SetDescription("ArtiUnarmedSpellstrikeFeature.Description")
+                .SetIcon(USSicon)
+                .AddFacts([ArtiUnarmedSpellstrike])
+                .AddComponent(new AddMagusMechanicPart { m_Feature = AddMagusMechanicPart.Feature.Spellstrike})
+                .Configure();
+            /* UNARMED SPELLSTRIKE END */
+
+            /* EMPOWERED ARM */
+
+            /*var EmpArmBuff = BuffConfigurator.New(ArtiEmpArmBuffName, ArtiEmpArmBuffGuid)
+                .AddBuffEnchantSpecificWeaponWorn(enchantmentBlueprint: WeaponEnchantmentRefs.TemporaryEnhancement5.ToString(), weaponBlueprint:GolemArmWeapon)
+                .SetFlags(BlueprintBuff.Flags.HiddenInUi)
+                .Configure();
+            var EmpArm = FeatureConfigurator.New(ArtiEmpArmName, ArtiEmpArmGuid)
+                .SetDisplayName("EmpArms.Name")
+                .SetDescription("EmpArms.Description")
+                .AddFacts([EmpArmBuff])
+                .Configure();*/
+
             ArchetypeConfigurator.For(JistkanArtificerArchetype)
                 .AddToAddFeatures(1, ArtiDiminishedSpellcasting)
                 .AddToAddFeatures(1, GolemArmFeature)
                 .AddToAddFeatures(1, ArtiUnarmedStrike)
+                .AddToAddFeatures(2, ArtiUnarmedSpellstrikeFeature)
+                //.AddToAddFeatures(2, EmpArm)
                 .AddToAddFeatures(5, ArtiEnchantPlus2)
+
+                .AddToRemoveFeatures(2, FeatureRefs.SpellStrikeFeature.ToString())
+                .AddToRemoveFeatures(5, FeatureRefs.ArcaneWeaponPlus2.ToString())
                 .Configure();
 
         }

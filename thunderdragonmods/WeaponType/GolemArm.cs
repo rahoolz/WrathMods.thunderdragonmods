@@ -15,6 +15,7 @@ using Kingmaker.Enums.Damage;
 using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.Utility;
+using UniRx;
 
 namespace thunderdragonmods.WeaponType
 {
@@ -30,8 +31,20 @@ namespace thunderdragonmods.WeaponType
 
         public static void Configure()
         {
+            var GolemArmVisual = new WeaponVisualParameters();
+            GolemArmVisual.m_Projectiles = WeaponTypeRefs.ThrowingAxe.Reference.Get().m_VisualParameters.m_Projectiles;
+            GolemArmVisual.m_WeaponAnimationStyle = Kingmaker.View.Animation.WeaponAnimationStyle.Fist;
+            GolemArmVisual.m_WeaponModel = WeaponTypeRefs.Unarmed.Reference.Get().m_VisualParameters.m_WeaponModel;
+            GolemArmVisual.m_SpecialAnimation = Kingmaker.Visual.Animation.Kingmaker.UnitAnimationSpecialAttackType.None;
+            GolemArmVisual.m_WeaponBeltModelOverride = null;
+            GolemArmVisual.m_WeaponSheathModelOverride = null;
+
+            
+            var GolemArmCat = new WeaponCategory();
             var GolemArm = WeaponTypeConfigurator.New(GolemArmName, GolemArmGuid)
-                .CopyFrom(blueprint: WeaponTypeRefs.PunchingDagger)
+                .CopyFrom(blueprint: WeaponTypeRefs.Unarmed)
+                //.SetVisualParameters(GolemArmVisual)
+                .SetCategory(WeaponCategory.UnarmedStrike)
                 .SetTypeNameText("GolemArm.Name")
                 .SetDefaultNameText("GolemArm.Name")
                 .SetIsUnarmed(true)
@@ -61,12 +74,14 @@ namespace thunderdragonmods.WeaponType
                 .Configure(); */
 
             var StandardGolemArm = ItemWeaponConfigurator.New(GolemArmStdName, GolemArmStdGuid)
-                .CopyFrom(ItemWeaponRefs.StandardPunchingDagger)
+                //.CopyFrom(ItemWeaponRefs.Unarmed1d3, componentTypes: [typeof(WeaponVisualParameters)])
+                .SetVisualParameters(ItemWeaponRefs.Unarmed1d3.Reference.Get().m_VisualParameters)
                 .SetDisplayNameText("GolemArm.Name")
                 .SetType(type: GolemArm)
                 .SetIcon(icon)
                 .SetEnchantments(enchantments: ["6b38844e2bffbac48b63036b66e735be"]) //Enchantment: Masterwork
                 .Configure();
+
         }
     }
 }
